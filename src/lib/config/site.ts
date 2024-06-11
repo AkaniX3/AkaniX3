@@ -10,8 +10,8 @@ export const site: SiteConfig = {
   author: {
     avatar: '/assets/maskable@512.png',
     name: 'AkaniX3',
-    status: '🌸',
-    bio: 'Welcome to my page<3 Here i write about things i do!'
+    status: '✨',
+    bio: 'Welcome to my page<3\nHere i write about things i do!'
   },
   themeColor: '#3D4451'
 }
