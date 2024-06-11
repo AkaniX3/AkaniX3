@@ -3,27 +3,27 @@ import type { ThemeConfig, HeadConfig, HeaderConfig, FooterConfig, DateConfig, F
 export const theme: ThemeConfig = [
   {
     name: 'cmyk',
-    text: '🖨 Light'
+    text: '🌕 Shiro'
   },
   {
-    name: 'dracula',
-    text: '🧛 Dark'
+    name: 'night',
+    text: '🌑 Kuro'
+  },
+  {
+    name: 'cupcake',
+    text: '🧁 Cupcake'
   },
   {
     name: 'valentine',
-    text: '🌸 Valentine'
-  },
-  {
-    name: 'aqua',
-    text: '💦 Aqua'
+    text: '🎀 Valentine'
   },
   {
     name: 'synthwave',
     text: '🌃 Synthwave'
   },
   {
-    name: 'night',
-    text: '🌃 Night'
+    name: 'aqua',
+    text: '🫧 Aqua'
   },
   {
     name: 'lofi',
@@ -34,12 +34,12 @@ export const theme: ThemeConfig = [
     text: '🍋 Lemonade'
   },
   {
-    name: 'cupcake',
-    text: '🧁 Cupcake'
-  },
-  {
     name: 'garden',
     text: '🏡 Garden'
+  },
+  {
+    name: 'dracula',
+    text: '🧛 Dark'
   },
   {
     name: 'retro',
