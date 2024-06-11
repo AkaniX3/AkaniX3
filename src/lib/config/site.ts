@@ -13,7 +13,7 @@ export const site: SiteConfig = {
     status: '✨',
     github: 'https://github.com/AkaniX3',
     email: 'parthrajkondawar@gmail.com',
-    bio: `Welcome to my page<3<br/>Here i write about things i do!`
+    bio: `Welcome to my page ^^<br/>Here i write about things i do!`
   },
   themeColor: '#3D4451'
 }
