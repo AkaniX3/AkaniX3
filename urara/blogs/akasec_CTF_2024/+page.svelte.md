@@ -41,38 +41,14 @@ roots = pol.small_roots(epsilon=1/50)
 ```
 Then we iterate through the found roots, add each root to m, and prints the result. The addition of m to each root is done because the polynomial was defined as (m+x), so the roots found are offsets from m.
 
-The encryption operation for RSA with exponent 2 can be written as:
+The encryption operation for RSA with exponent 2 can be written as: 𝑐 = (𝑚+𝑘)ᵉ 𝘮𝘰𝘥 𝑛
 
-𝑐
-=
-(
-𝑚
-+
-𝑘
-)
-2
-m
-o
-d
- 
- 
-𝑛
-c=(m+k) 
-2
- modn
+where k is some small value. The polynomial (𝑚+𝑥)ᵉ − 𝑐 is constructed and the small roots method is used to find the possible values of k. By adding these roots back to m, the code attempts to recover the original plaintext m.
 
-where k is some small value. The polynomial 
-(
-𝑚
-+
-𝑥
-)
-2
-−
-𝑐
-(m+x) 
-2
- −c is constructed and the small roots method is used to find the possible values of k. By adding these roots back to m, the code attempts to recover the original plaintext m.
+Flag:
+```
+AKASEC{c0pp3r5m17h_4774ck_1n_1ov3_w17h_5m4ll_3xp0n3nts}
+```
 
 ## Developing
 
