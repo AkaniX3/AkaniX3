@@ -5,17 +5,10 @@ alt: 'AkasecCTF'
 created: 2024-6-11
 tags:
   - 'CTF'
-  - 'Forensics'
   - 'Cryptography'
 ---
 
 My writeup on Akasec CTF on the challs solved by my team 'Bits & Pieces' and we placed rank 13th on this ctf event, it was a pretty good run this time!
-
-## Forensics:
-
-### Portugal
-
-meow
 
 ## Crypto:
 
@@ -130,6 +123,90 @@ Flag: `AKASEC{be_on_the_right_side_of_history_free_palestine}`
 
 ### My Calculus Lab
 
-meow
+In the given code:
+
+```py
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+import hashlib
+import sympy as sp
+import random
+
+FLAG = b'REDACTED'
+
+key = random.getrandbits(7)
+
+x = sp.symbols('x')
+
+f = "REDACTED"
+f_prime = "REDACTED"
+f_second_prime = "REDACTED"
+
+assert(2*f_second_prime - 6*f_prime + 3*f == 0)
+assert(f.subs(x, 0) | f_prime.subs(x, 0) == 14)
+
+def encrypt(message, key):
+    global f
+    global x
+    point = f.subs(x, key).evalf(100)
+    point_hash = hashlib.sha256(str(point).encode()).digest()[:16]
+    cipher = AES.new(point_hash, AES.MODE_CBC)
+    iv = cipher.iv
+    ciphertext = cipher.encrypt(pad(message, AES.block_size))
+    return iv.hex() + ciphertext.hex()
+
+encrypted = encrypt(FLAG, key)
+
+print(f"Key: {key}")
+print(f"Encrypted: {encrypted}")
+```
+
+.
+
+```py
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad,unpad
+import hashlib
+import sympy as sp
+import random
+import math
+from sympy import symbols, Function, Eq, dsolve, exp, Derivative
+
+x = sp.symbols('x')
+e=math.e
+Key=60
+Encrypted='805534c14e694348a67da0d75165623cf603c2a98405b34fe3ba8752ce24f5040c39873ec2150a61591b233490449b8b7bedaf83aa9d4b57d6469cd3f78fdf55'
+
+iv_hex=Encrypted[:32]
+ct=Encrypted[32:]
+
+iv=bytes.fromhex(iv_hex)
+c=bytes.fromhex(ct)
+
+pos14=[[0, 14], [2, 12], [2, 14], [4, 10], [4, 14], [6, 8], [6, 10], [6, 12], [6, 14], [8, 6], [8, 14], [10, 4], [10, 6], [10, 12], [10, 14], [12, 2], [12, 6], [12, 10], [12, 14], [14, 0], [14, 2], [14, 4], [14, 6], [14, 8], [14, 10], [14, 12], [14, 14]]
+
+x = symbols('x')
+y = Function('y')(x)
+
+# Define the differential equation 2y''-6y'+3y=0
+differential_eq = Eq(2*y.diff(x, x) - 6*y.diff(x) + 3*y, 0)
+
+for i in range(len(pos14)):
+   # Define initial conditions y(0) = y0 and y'(0) = y1
+   y0 = pos14[i][0]  # Ey(x)
+   y1 = pos14[i][1]  # y'(x)
+   initial_conditions = {y.subs(x, 0): y0, y.diff(x).subs(x, 0): y1}
+   # Solve the differential equation with initial conditions
+   solution = dsolve(differential_eq, y, ics=initial_conditions)
+   f=solution.rhs
+   point = f.subs(x, Key).evalf(100)
+   point_hash = hashlib.sha256(str(point).encode()).digest()[:16]
+   cipher = AES.new(point_hash, AES.MODE_CBC, iv)
+   flag = cipher.decrypt(c)
+   if b'AKASEC' in flag:
+       print(flag)
+```
+
+Flag: `AKASEC{d1d_y0u_3nj0y_c41cu1u5_101?}`
 
 visit [urara-docs.netlify.app](https://urara-docs.netlify.app).
