@@ -21,13 +21,35 @@ meow
 
 ### Lost
 
+In the given code:
+
+```py
+from random import getrandbits
+from Crypto.Util.number import getPrime, bytes_to_long
+from SECRET import FLAG
+
+e = 2
+p = getPrime(256)
+q = getPrime(256)
+n = p * q
+
+m = bytes_to_long(FLAG)
+cor_m = m - getrandbits(160)
+
+if __name__ == "__main__":
+    c = pow(m, e, n)
+    print("n = {}\nc = {}\ncor_m = {}".format(n, c, cor_m))
+```
+
+We can identify that the `getrandbits(160)` is a small range and we can exploit this vulnerablility using the "Coppersmith's Attack" which helps us to find the potential value to decrypt the flag.
+
 ```py
 m=724154397787031699242933363312913323086319394176220093419616667612889538090840511506381320998293481458429167685676367015744314015744
 n=5113166966960118603250666870544315753374750136060769465485822149528706374700934720443689630473991177661169179462100732951725871457633686010946951736764639
 e=2
 c=329402637167950119278220170950190680807120980712143610290182242567212843996710001488280098771626903975534140478814872389359418514658167263670496584963653
 P.<x> = PolynomialRing(Zmod(n), implementation='NTL')
-pol = (m + x)^e - c
+pol = (m + x)**2 - c
 roots = pol.small_roots(epsilon=1/50)
 print("Potential solutions:")
 for root in roots:
@@ -40,11 +62,12 @@ Here the code attempts to find small roots of the polynomial using the small_roo
 ```py
 roots = pol.small_roots(epsilon=1/50)
 ```
+
 Then we iterate through the found roots, add each root to m, and prints the result. The addition of m to each root is done because the polynomial was defined as (m+x), so the roots found are offsets from m.
 
-The encryption operation for RSA with exponent 2 can be written as: c = (m+k)<sup>e</sup> mod n
+The encryption operation for RSA with exponent e can be written as: c = (m+k)<sup>2</sup> mod n
 
-where k is some small value. The polynomial (m+x)<sup>e</sup> - c is constructed and the small roots method is used to find the possible values of k. By adding these roots back to m, the code attempts to recover the original plaintext m.
+where k is some small value. The polynomial (m+x)<sup>2</sup> - c is constructed and the small roots method is used to find the possible values of k. By adding these roots back to m, the code attempts to recover the original plaintext m.
 
 Flag: `AKASEC{c0pp3r5m17h_4774ck_1n_1ov3_w17h_5m4ll_3xp0n3nts}`
 
@@ -54,7 +77,26 @@ meow
 
 ### Twin
 
-We need to exploit a specific relationship between the plaintext messages encrypted as c1 and c2 under the same RSA modulus and small exponent e=5. It iterates over potential values of k, calculates the GCD of the resulting polynomials, and checks for non-trivial solutions that can be used to derive the plaintext.
+In the given code:
+
+```py
+from Crypto.Util.number import getPrime, bytes_to_long, long_to_bytes
+from SECRET import FLAG
+
+e = 5
+p = getPrime(256)
+q = getPrime(256)
+n = p * q
+
+m1 = bytes_to_long(FLAG)
+m2 = m1 >> 8
+
+if __name__ == "__main__":
+    c1, c2 = pow(m1, e, n), pow(m2, e, n)
+    print("n = {}\nc1 = {}\nc2 = {}".format(n, c1, c2))
+```
+
+We need to exploit a specific relationship between the plaintext messages encrypted as c1 and c2 under the same RSA modulus and small exponent e=5. To find the missing value of the encrypted flag, let's say 'k', It iterates over potential values of k, calculates the GCD of the resulting polynomials, and checks for non-trivial solutions that can be used to derive the plaintext.
 
 ```py
 e=5
@@ -76,7 +118,7 @@ for k in range(256):
         print(long_to_bytes(Integer(res))) # prints the flag
 ```
 
-If the leading coefficient of the GCD is not 1, it indicates a potential solution. it uses the small_roots method to find the potential message.
+If the leading coefficient of the GCD is not 1, it indicates a potential value which was at iteration 125 which converts to the ascii value `}`. Then uses the small_roots method to find the potential message.
 
 ```py
    if(my_gcd(f1, f2).coefficients()[0] != 1): # finds the potential
