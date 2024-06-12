@@ -45,40 +45,11 @@ The encryption operation for RSA with exponent 2 can be written as: 𝑐 = (𝑚
 
 where k is some small value. The polynomial (𝑚+𝑥)ᵉ − 𝑐 is constructed and the small roots method is used to find the possible values of k. By adding these roots back to m, the code attempts to recover the original plaintext m.
 
-Flag:
-```
-AKASEC{c0pp3r5m17h_4774ck_1n_1ov3_w17h_5m4ll_3xp0n3nts}
-```
+Flag: `AKASEC{c0pp3r5m17h_4774ck_1n_1ov3_w17h_5m4ll_3xp0n3nts}`
 
-## Developing
+### Power Over All
 
-Start a development server:
+meow
 
-```bash
-# http://127.0.0.1:5173
-pnpm dev
-```
 
-or listen to different IP and port:
-
-```py
-# http://127.0.0.1:3000
-pnpm dev --port 3000
-
-# http://0.0.0.0:3000
-nr dev --host 0.0.0.0 --port 3000
-```
-
-## Building
-
-Create a production version of ur blog:
-
-```bash
-pnpm build
-```
-
-u can preview the built app with `pnpm preview`.
-
-## Documentation
-
-For full documentation, visit [urara-docs.netlify.app](https://urara-docs.netlify.app).
+visit [urara-docs.netlify.app](https://urara-docs.netlify.app).
