@@ -6,6 +6,7 @@ created: 2024-6-11
 tags:
   - 'CTF'
   - 'Forensics'
+  - 'Cryptography'
 ---
 
 My writeup on Akasec CTF on the challs solved by my team 'Bits & Pieces' and we placed rank 13th on this ctf event, it was a pretty good run this time!
@@ -52,6 +53,9 @@ Flag: `AKASEC{c0pp3r5m17h_4774ck_1n_1ov3_w17h_5m4ll_3xp0n3nts}`
 meow
 
 ### Twin
+
+We need to exploit a specific relationship between the plaintext messages encrypted as c1 and c2 under the same RSA modulus and small exponent e=5. It iterates over potential values of k, calculates the GCD of the resulting polynomials, and checks for non-trivial solutions that can be used to derive the plaintext.
+
 ```py
 e=5
 n=6689395968128828819066313568755352659933786163958960509093076953387786003094796620023245908431378798689402141767913187865481890531897380982752646248371131
@@ -71,11 +75,14 @@ for k in range(256):
         res = (my_gcd(f1, f2).small_roots()[0] * 256) + k 
         print(long_to_bytes(Integer(res))) # prints the flag
 ```
-We need to exploit a specific relationship between the plaintext messages encrypted as c1 and c2 under the same RSA modulus and small exponent e=5. It iterates over potential values of k, calculates the GCD of the resulting polynomials, and checks for non-trivial solutions that can be used to derive the plaintext.
+
+If the leading coefficient of the GCD is not 1, it indicates a potential solution. it uses the small_roots method to find the potential message.
+
 ```py
    if(my_gcd(f1, f2).coefficients()[0] != 1): # finds the potential
 ```
-If the leading coefficient of the GCD is not 1, it indicates a potential solution. it uses the small_roots method to find the potential message, converts it to a readable format, and prints it.
+
+The message is converted into a readable format, and prints it.
 
 Flag: `AKASEC{be_on_the_right_side_of_history_free_palestine}`
 
