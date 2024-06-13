@@ -161,7 +161,13 @@ print(f"Key: {key}")
 print(f"Encrypted: {encrypted}")
 ```
 
-.
+On observing the above code we can clearly see that:
+
+- The function f satisfies a second-order linear differential equation: 2f'' - 6f- + 3f = 0
+- Encryption key is derived by evaluating function f at a key value (7-bits)
+- This key is then hashed using SHA-256 to generate the AES key.
+
+To decrypt the message, we need to just reverse the process, that's to solve the differential equation with various initial conditions and regenerate the AES key.
 
 ```py
 from Crypto.Cipher import AES
@@ -205,6 +211,33 @@ for i in range(len(pos14)):
    flag = cipher.decrypt(c)
    if b'AKASEC' in flag:
        print(flag)
+```
+
+We first define the differential Equation
+
+```py
+y = Function('y')(x)
+differential_eq = Eq(2*y.diff(x, x) - 6*y.diff(x) + 3*y, 0)
+```
+
+Then iterate through all possible initial conditions, and every solution is evaluated and hashed at the key to derive the AES key.
+
+```py
+for i in range(len(pos14)):
+   y0 = pos14[i][0]
+   y1 = pos14[i][1]
+   initial_conditions = {y.subs(x, 0): y0, y.diff(x).subs(x, 0): y1} 
+   solution = dsolve(differential_eq, y, ics=initial_conditions) # Solve Diff eq 
+   f=solution.rhs
+   point = f.subs(x, Key).evalf(100) #evaluate
+   point_hash = hashlib.sha256(str(point).encode()).digest()[:16] #hash
+```
+
+This regenerated AES derived key and IV is used to decrypt the cipher text.
+
+```py
+cipher = AES.new(point_hash, AES.MODE_CBC, iv)
+flag = unpad(cipher.decrypt(c), AES.block_size)
 ```
 
 Flag: `AKASEC{d1d_y0u_3nj0y_c41cu1u5_101?}`
