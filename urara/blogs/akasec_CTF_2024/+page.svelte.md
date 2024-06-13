@@ -1,6 +1,6 @@
 ---
 title: 'Akasec CTF 2024 writeup'
-image: '/hello-world/urara.webp'
+image: '/blogs/akasec_CTF_2024/akasec1.png'
 alt: 'AkasecCTF'
 created: 2024-6-11
 tags:
