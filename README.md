@@ -11,7 +11,8 @@
 
 ---
 
-h2>Tech stack </h2>
+<h2>Tech stack </h2>
+
 <p align=center>
 <img alt="Arch" src="https://img.shields.io/badge/Arch%20Linux-1793D1?logo=arch-linux&logoColor=fff&style=for-the-badge">
 </p>
