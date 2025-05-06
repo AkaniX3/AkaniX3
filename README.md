@@ -1,13 +1,12 @@
-![svg](https://readme-typing-svg.demolab.com/?font=Pixelify+Sans&size=32&duration=2550&pause=1000&color=ffffff&random=false&width=435&lines=Welcome+to+my+profile+!)
+![svg](https://readme-typing-svg.demolab.com/?font=Pixelify+Sans&size=32&duration=2550&pause=1000&color=ffffff&random=false&width=435&lines=It's+a+me+Akani+!)
 
 <h1><b>Hi, I'm Parth Rajkondawar</b></h1>
 
 <h2>#whoami</h2>
 
-- 🔭 Undergrade student at RCOEM
-- 🌱 I’m currently learning Web Development and CyberSecurity
-- 👀 I’m interested in Competitive Coding & Customizing OS
-- 📫 How to reach me: **parthrajkondawar@gmail.com**
+- Undergrade student at RCOEM
+- Currently learning AI and InfoSec stuff
+- I love Competitive Coding & Customizing OS
 
 ---
 
